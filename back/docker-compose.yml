@@ -1,0 +1,17 @@
+version: "3.1"
+
+services: 
+  tumadb:
+    image: mysql:5.7
+    volumes:
+      - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    command: --init-file /docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "3312:3306"
+    environment:
+      MYSQL_DATABASE: tumadb
+      MYSQL_ROOT_USER: root
+      MYSQL_ROOT_PASSWORD: tuma
+      MYSQL_USER: she
+      MYSQL_USER_PASSWORD: tuma
+      MYSQL_ROOT_HOST: '%'
