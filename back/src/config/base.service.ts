@@ -4,7 +4,7 @@ import { ConfigServer } from "./config";
 
 export class BaseService<T extends BaseEntity> extends ConfigServer {
   public execRepository: Promise<Repository<T>>;
-    initConnect: any;
+  initConnect: any;
   constructor(private getEntity: EntityTarget<T>) {
     super();
     this.execRepository = this.initRepository(getEntity);

@@ -1,15 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BaseRouter = void 0;
-var express_1 = require("express");
-var BaseRouter = /** @class */ (function () {
+const express_1 = require("express");
+class BaseRouter {
     //public middleware: U
-    function BaseRouter(TController) {
+    constructor(TController) {
         this.router = (0, express_1.Router)();
         this.controller = new TController();
         this.routes();
     }
-    BaseRouter.prototype.routes = function () { };
-    return BaseRouter;
-}());
+    routes() { }
+}
 exports.BaseRouter = BaseRouter;

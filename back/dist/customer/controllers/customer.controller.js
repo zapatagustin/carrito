@@ -9,35 +9,36 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserController = void 0;
+exports.CustomerController = void 0;
 const http_response_1 = require("../../shared/response/http.response");
-const user_service_1 = require("../services/user.service");
-class UserController {
-    constructor(userService = new user_service_1.UserService(), httpResponse = new http_response_1.HttpResponse()) {
-        this.userService = userService;
+const customer_service_1 = require("../services/customer.service");
+class CustomerController {
+    constructor(customerService = new customer_service_1.CustomerService(), httpResponse = new http_response_1.HttpResponse()) {
+        this.customerService = customerService;
         this.httpResponse = httpResponse;
     }
-    getUsers(req, res) {
+    getCustomers(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const data = yield this.userService.findAllUser();
+                const data = yield this.customerService.findAllCustomers();
                 if (data.length === 0) {
                     return this.httpResponse.NotFound(res, "No data");
                 }
                 return this.httpResponse.Ok(res, data);
             }
             catch (e) {
+                console.error(e);
                 return this.httpResponse.INTERNAL_SERVER_ERROR(res, e);
             }
         });
     }
-    getUserById(req, res) {
+    getCustomerById(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
             try {
-                const data = yield this.userService.findUserById(id);
+                const data = yield this.customerService.findCustomerById(id);
                 if (!data) {
-                    return this.httpResponse.NotFound(res, "No data");
+                    return this.httpResponse.NotFound(res, "No Data");
                 }
                 return this.httpResponse.Ok(res, data);
             }
@@ -47,10 +48,10 @@ class UserController {
             }
         });
     }
-    createUser(req, res) {
+    createCustomer(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const data = yield this.userService.createUser(req.body);
+                const data = yield this.customerService.createCustomer(req.body);
                 return this.httpResponse.Ok(res, data);
             }
             catch (e) {
@@ -59,11 +60,11 @@ class UserController {
             }
         });
     }
-    updateUser(req, res) {
+    updateCustomer(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
             try {
-                const data = yield this.userService.updateUser(id, req.body);
+                const data = yield this.customerService.updateCustomer(id, req.body);
                 if (!data.affected) {
                     return this.httpResponse.NotFound(res, "Update Error");
                 }
@@ -75,13 +76,13 @@ class UserController {
             }
         });
     }
-    deleteUser(req, res) {
+    deleteCustomer(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
             try {
-                const data = yield this.userService.deleteUser(id);
+                const data = yield this.customerService.deleteCustomer(id);
                 if (!data.affected) {
-                    return this.httpResponse.NotFound(res, "Errase Error");
+                    return this.httpResponse.NotFound(res, "Delete Error");
                 }
                 return this.httpResponse.Ok(res, data);
             }
@@ -92,4 +93,4 @@ class UserController {
         });
     }
 }
-exports.UserController = UserController;
+exports.CustomerController = CustomerController;

@@ -3,28 +3,34 @@ import { BaseDTO } from "../../config/base.dto";
 
 export class UserDTO extends BaseDTO {
 
-    @IsNotEmpty()
-    name!: string
+  @IsNotEmpty()
+  name!: string
 
-    @IsNotEmpty()
-    lastname!:string
+  @IsNotEmpty()
+  lastname!: string
 
-    @IsNotEmpty()
-    username!:string
+  @IsNotEmpty()
+  username!: string
 
-    @IsNotEmpty()
-    email!:string
+  @IsNotEmpty()
+  email!: string
 
-    @IsNotEmpty()
-    password!:string
+  @IsNotEmpty()
+  password!: string
 
-    @IsNotEmpty()
-    city!:string
+  @IsNotEmpty()
+  city!: string
 
-    @IsNotEmpty()
-    province!:string
+  @IsNotEmpty()
+  province!: string
 
-    @IsNotEmpty()
-    customer!: string
+  @IsNotEmpty()
+  role!: RoleType;
+}
 
+
+export enum RoleType {
+  USER = "USER",
+  CUSTOMER = "CUSTOMER",
+  ADMIN = "ADMIN",
 }

@@ -1,33 +1,32 @@
-import express, { Request, Response } from 'express'
-import { DeleteResult, UpdateResult } from 'typeorm';
-import { HttpResponse } from '../../shared/response/http.response'
-import { UserService } from '../services/user.service'
+import { HttpResponse } from "../../shared/response/http.response";
+import { CustomerService } from "../services/customer.service";
+import { DeleteResult, UpdateResult } from "typeorm";
+import { Request, Response } from "express";
 
-export class UserController {
-
+export class CustomerController {
   constructor(
-    private readonly userService: UserService = new UserService(),
+    private readonly customerService: CustomerService = new CustomerService(),
     private readonly httpResponse: HttpResponse = new HttpResponse()
   ) { }
 
-  async getUsers(req: Request, res: Response) {
+  async getCustomers(req: Request, res: Response) {
     try {
-      const data = await this.userService.findAllUser();
+      const data = await this.customerService.findAllCustomers();
       if (data.length === 0) {
         return this.httpResponse.NotFound(res, "No data");
       }
       return this.httpResponse.Ok(res, data);
     } catch (e) {
+      console.error(e);
       return this.httpResponse.INTERNAL_SERVER_ERROR(res, e);
     }
   }
-
-  async getUserById(req: Request, res: Response) {
+  async getCustomerById(req: Request, res: Response) {
     const { id } = req.params;
     try {
-      const data = await this.userService.findUserById(id);
+      const data = await this.customerService.findCustomerById(id);
       if (!data) {
-        return this.httpResponse.NotFound(res, "No data");
+        return this.httpResponse.NotFound(res, "No Data");
       }
       return this.httpResponse.Ok(res, data);
     } catch (e) {
@@ -35,25 +34,22 @@ export class UserController {
       return this.httpResponse.INTERNAL_SERVER_ERROR(res, e);
     }
   }
-
-  async createUser(req: Request, res: Response) {
+  async createCustomer(req: Request, res: Response) {
     try {
-      const data = await this.userService.createUser(req.body);
+      const data = await this.customerService.createCustomer(req.body);
       return this.httpResponse.Ok(res, data);
     } catch (e) {
       console.error(e);
       return this.httpResponse.INTERNAL_SERVER_ERROR(res, e);
     }
   }
-
-  async updateUser(req: Request, res: Response) {
+  async updateCustomer(req: Request, res: Response) {
     const { id } = req.params;
     try {
-      const data: UpdateResult = await this.userService.updateUser(
+      const data: UpdateResult = await this.customerService.updateCustomer(
         id,
         req.body
       );
-
       if (!data.affected) {
         return this.httpResponse.NotFound(res, "Update Error");
       }
@@ -64,13 +60,12 @@ export class UserController {
       return this.httpResponse.INTERNAL_SERVER_ERROR(res, e);
     }
   }
-
-  async deleteUser(req: Request, res: Response) {
+  async deleteCustomer(req: Request, res: Response) {
     const { id } = req.params;
     try {
-      const data: DeleteResult = await this.userService.deleteUser(id);
+      const data: DeleteResult = await this.customerService.deleteCustomer(id);
       if (!data.affected) {
-        return this.httpResponse.NotFound(res, "Errase Error");
+        return this.httpResponse.NotFound(res, "Delete Error");
       }
       return this.httpResponse.Ok(res, data);
     } catch (e) {

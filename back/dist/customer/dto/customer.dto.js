@@ -9,29 +9,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BaseEntity = void 0;
-const typeorm_1 = require("typeorm");
-class BaseEntity {
+exports.CustomerDTO = void 0;
+const class_validator_1 = require("class-validator");
+const base_dto_1 = require("../../config/base.dto");
+class CustomerDTO extends base_dto_1.BaseDTO {
 }
 __decorate([
-    (0, typeorm_1.PrimaryGeneratedColumn)("uuid"),
+    (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
-], BaseEntity.prototype, "id", void 0);
+], CustomerDTO.prototype, "address", void 0);
 __decorate([
-    (0, typeorm_1.CreateDateColumn)({
-        name: "created_at",
-        type: "timestamp",
-    }),
-    __metadata("design:type", Date)
-], BaseEntity.prototype, "createdAt", void 0);
-__decorate([
-    (0, typeorm_1.UpdateDateColumn)({
-        name: "updated_at",
-        type: "timestamp",
-    }),
-    __metadata("design:type", Date)
-], BaseEntity.prototype, "updatedAt", void 0);
-exports.BaseEntity = BaseEntity;
-//id
-//created_at
-//updated_at
+    (0, class_validator_1.IsNotEmpty)(),
+    __metadata("design:type", Number)
+], CustomerDTO.prototype, "dni", void 0);
+exports.CustomerDTO = CustomerDTO;

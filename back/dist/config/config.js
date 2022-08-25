@@ -22,58 +22,64 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ConfigServer = void 0;
-var dotenv = __importStar(require("dotenv"));
-var typeorm_naming_strategies_1 = require("typeorm-naming-strategies");
-var ConfigServer = /** @class */ (function () {
-    function ConfigServer() {
-        var nodeNameEnv = this.createPathEnv(this.nodeEnv);
+const dotenv = __importStar(require("dotenv"));
+const typeorm_1 = require("typeorm");
+const typeorm_naming_strategies_1 = require("typeorm-naming-strategies");
+class ConfigServer {
+    constructor() {
+        const nodeNameEnv = this.createPathEnv(this.nodeEnv);
         dotenv.config({
             path: nodeNameEnv,
         });
     }
-    ConfigServer.prototype.getEnviroment = function (k) {
+    getEnviroment(k) {
         return process.env[k]; //process env port['PORT']
-    };
-    ConfigServer.prototype.getNumberEnv = function (k) {
+    }
+    getNumberEnv(k) {
         return Number(this.getEnviroment(k));
-    };
-    Object.defineProperty(ConfigServer.prototype, "nodeEnv", {
-        get: function () {
-            var _a;
-            return ((_a = this.getEnviroment('NODE_ENV')) === null || _a === void 0 ? void 0 : _a.trim()) || "";
-        },
-        enumerable: false,
-        configurable: true
-    });
-    ConfigServer.prototype.createPathEnv = function (path) {
-        var arrEnv = ['env'];
+    }
+    get nodeEnv() {
+        var _a;
+        return ((_a = this.getEnviroment('NODE_ENV')) === null || _a === void 0 ? void 0 : _a.trim()) || "";
+    }
+    createPathEnv(path) {
+        const arrEnv = ['env'];
         if (path.length > 0) {
-            var stringToArray = path.split('.');
-            arrEnv.unshift.apply(arrEnv, stringToArray);
+            const stringToArray = path.split('.');
+            arrEnv.unshift(...stringToArray);
         }
         return '.' + arrEnv.join('.');
-    };
-    Object.defineProperty(ConfigServer.prototype, "typeORMConfig", {
-        get: function () {
-            return {
-                type: 'mysql',
-                host: this.getEnviroment("DB_HOST"),
-                port: this.getNumberEnv('DB_PORT'),
-                username: this.getEnviroment('DB_USER'),
-                password: this.getEnviroment('DB_USER_PASSWORD'),
-                database: this.getEnviroment('DB_DATABASE'),
-                entities: [__dirname + '/../**/*.entity{.ts,.js}'],
-                migrations: [__dirname + "/../../migrations/*{.ts,.js}"],
-                synchronize: true,
-                logging: false,
-                namingStrategy: new typeorm_naming_strategies_1.SnakeNamingStrategy(),
-            };
-        },
-        enumerable: false,
-        configurable: true
-    });
-    return ConfigServer;
-}());
+    }
+    get typeORMConfig() {
+        return {
+            type: 'mysql',
+            host: this.getEnviroment("DB_HOST"),
+            port: this.getNumberEnv('DB_PORT'),
+            username: this.getEnviroment('DB_USER'),
+            password: this.getEnviroment('DB_USER_PASSWORD'),
+            database: this.getEnviroment('DB_DATABASE'),
+            entities: [__dirname + '/../**/*.entity{.ts,.js}'],
+            migrations: [__dirname + "/../../migrations/*{.ts,.js}"],
+            synchronize: true,
+            logging: false,
+            namingStrategy: new typeorm_naming_strategies_1.SnakeNamingStrategy(),
+        };
+    }
+    dbConnect() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield (0, typeorm_1.createConnection)(this.typeORMConfig);
+        });
+    }
+}
 exports.ConfigServer = ConfigServer;
