@@ -22,20 +22,10 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ConfigServer = void 0;
 const dotenv = __importStar(require("dotenv"));
-const typeorm_1 = require("typeorm");
-const typeorm_naming_strategies_1 = require("typeorm-naming-strategies");
+const data_source_1 = require("./data.source");
 class ConfigServer {
     constructor() {
         const nodeNameEnv = this.createPathEnv(this.nodeEnv);
@@ -43,43 +33,26 @@ class ConfigServer {
             path: nodeNameEnv,
         });
     }
-    getEnviroment(k) {
-        return process.env[k]; //process env port['PORT']
+    getEnvironment(k) {
+        return process.env[k];
     }
     getNumberEnv(k) {
-        return Number(this.getEnviroment(k));
+        return Number(this.getEnvironment(k));
     }
     get nodeEnv() {
         var _a;
-        return ((_a = this.getEnviroment('NODE_ENV')) === null || _a === void 0 ? void 0 : _a.trim()) || "";
+        return ((_a = this.getEnvironment("NODE_ENV")) === null || _a === void 0 ? void 0 : _a.trim()) || "";
     }
     createPathEnv(path) {
-        const arrEnv = ['env'];
+        const arrEnv = ["env"];
         if (path.length > 0) {
-            const stringToArray = path.split('.');
+            const stringToArray = path.split(".");
             arrEnv.unshift(...stringToArray);
         }
-        return '.' + arrEnv.join('.');
+        return "." + arrEnv.join(".");
     }
-    get typeORMConfig() {
-        return {
-            type: 'mysql',
-            host: this.getEnviroment("DB_HOST"),
-            port: this.getNumberEnv('DB_PORT'),
-            username: this.getEnviroment('DB_USER'),
-            password: this.getEnviroment('DB_USER_PASSWORD'),
-            database: this.getEnviroment('DB_DATABASE'),
-            entities: [__dirname + '/../**/*.entity{.ts,.js}'],
-            migrations: [__dirname + "/../../migrations/*{.ts,.js}"],
-            synchronize: true,
-            logging: false,
-            namingStrategy: new typeorm_naming_strategies_1.SnakeNamingStrategy(),
-        };
-    }
-    dbConnect() {
-        return __awaiter(this, void 0, void 0, function* () {
-            return yield (0, typeorm_1.createConnection)(this.typeORMConfig);
-        });
+    get initConnect() {
+        return data_source_1.AppDataSource.initialize();
     }
 }
 exports.ConfigServer = ConfigServer;

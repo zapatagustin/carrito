@@ -11,7 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserService = void 0;
 const base_service_1 = require("../../config/base.service");
-const user_entitiy_1 = require("../../user/entities/user.entitiy");
+const user_entitiy_1 = require("../entities/user.entitiy");
 class UserService extends base_service_1.BaseService {
     constructor() {
         super(user_entitiy_1.UserEntity);
@@ -24,6 +24,15 @@ class UserService extends base_service_1.BaseService {
     findUserById(id) {
         return __awaiter(this, void 0, void 0, function* () {
             return (yield this.execRepository).findOneBy({ id });
+        });
+    }
+    findUserWithRelation(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return (yield this.execRepository)
+                .createQueryBuilder("user")
+                .leftJoinAndSelect("user.customer", "customer")
+                .where({ id })
+                .getOne();
         });
     }
     createUser(body) {

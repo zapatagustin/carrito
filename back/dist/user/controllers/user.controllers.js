@@ -10,8 +10,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserController = void 0;
-const http_response_1 = require("../../shared/response/http.response");
 const user_service_1 = require("../services/user.service");
+const http_response_1 = require("../../shared/response/http.response");
 class UserController {
     constructor(userService = new user_service_1.UserService(), httpResponse = new http_response_1.HttpResponse()) {
         this.userService = userService;
@@ -22,7 +22,7 @@ class UserController {
             try {
                 const data = yield this.userService.findAllUser();
                 if (data.length === 0) {
-                    return this.httpResponse.NotFound(res, "No data");
+                    return this.httpResponse.NotFound(res, "No existe dato");
                 }
                 return this.httpResponse.Ok(res, data);
             }
@@ -37,7 +37,23 @@ class UserController {
             try {
                 const data = yield this.userService.findUserById(id);
                 if (!data) {
-                    return this.httpResponse.NotFound(res, "No data");
+                    return this.httpResponse.NotFound(res, "No existe dato");
+                }
+                return this.httpResponse.Ok(res, data);
+            }
+            catch (e) {
+                console.error(e);
+                return this.httpResponse.INTERNAL_SERVER_ERROR(res, e);
+            }
+        });
+    }
+    getUserWithRelationById(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { id } = req.params;
+            try {
+                const data = yield this.userService.findUserWithRelation(id);
+                if (!data) {
+                    return this.httpResponse.NotFound(res, "No existe dato");
                 }
                 return this.httpResponse.Ok(res, data);
             }
@@ -65,7 +81,7 @@ class UserController {
             try {
                 const data = yield this.userService.updateUser(id, req.body);
                 if (!data.affected) {
-                    return this.httpResponse.NotFound(res, "Update Error");
+                    return this.httpResponse.NotFound(res, "Hay un error en actualizar");
                 }
                 return this.httpResponse.Ok(res, data);
             }
@@ -81,7 +97,7 @@ class UserController {
             try {
                 const data = yield this.userService.deleteUser(id);
                 if (!data.affected) {
-                    return this.httpResponse.NotFound(res, "Errase Error");
+                    return this.httpResponse.NotFound(res, "Hay un error en actualizar");
                 }
                 return this.httpResponse.Ok(res, data);
             }

@@ -11,12 +11,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CustomerService = void 0;
 const base_service_1 = require("../../config/base.service");
-const user_dto_1 = require("../../user/dto/user.dto");
-const user_service_1 = require("../../user/services/user.service");
+const customer_entity_1 = require("../entities/customer.entity");
 class CustomerService extends base_service_1.BaseService {
-    constructor(userService = new user_service_1.UserService()) {
-        super(CustomerService);
-        this.userService = userService;
+    constructor() {
+        super(customer_entity_1.CustomerEntity);
     }
     findAllCustomers() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -30,13 +28,7 @@ class CustomerService extends base_service_1.BaseService {
     }
     createCustomer(body) {
         return __awaiter(this, void 0, void 0, function* () {
-            const createCustomer = (yield this.execRepository).create(body);
-            const user = yield this.userService.findUserById(createCustomer.user.id);
-            if (user) {
-                yield this.userService.updateUser(user.id, Object.assign(Object.assign({}, user), { role: user_dto_1.RoleType.CUSTOMER }));
-                return (yield this.execRepository).save(body);
-            }
-            return null;
+            return (yield this.execRepository).save(body);
         });
     }
     deleteCustomer(id) {

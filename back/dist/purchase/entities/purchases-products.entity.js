@@ -20,7 +20,7 @@ class PurchaseProductEntity extends base_entitiy_1.BaseEntity {
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", Number)
-], PurchaseProductEntity.prototype, "quatityProduct", void 0);
+], PurchaseProductEntity.prototype, "quantityProduct", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", Number)

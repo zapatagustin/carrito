@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CustomerDTO = void 0;
 const class_validator_1 = require("class-validator");
 const base_dto_1 = require("../../config/base.dto");
+const user_entitiy_1 = require("../../user/entities/user.entitiy");
 class CustomerDTO extends base_dto_1.BaseDTO {
 }
 __decorate([
@@ -22,4 +23,8 @@ __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", Number)
 ], CustomerDTO.prototype, "dni", void 0);
+__decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    __metadata("design:type", user_entitiy_1.UserEntity)
+], CustomerDTO.prototype, "user", void 0);
 exports.CustomerDTO = CustomerDTO;
