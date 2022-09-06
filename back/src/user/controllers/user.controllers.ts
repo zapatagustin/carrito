@@ -8,6 +8,7 @@ export class UserController {
     private readonly userService: UserService = new UserService(),
     private readonly httpResponse: HttpResponse = new HttpResponse()
   ) { }
+
   async getUsers(req: Request, res: Response) {
     try {
       const data = await this.userService.findAllUser()
@@ -33,6 +34,7 @@ export class UserController {
       return this.httpResponse.INTERNAL_SERVER_ERROR(res, e)
     }
   }
+
   async getUserWithRelationById(req: Request, res: Response) {
     const { id } = req.params
     try {
@@ -46,6 +48,7 @@ export class UserController {
       return this.httpResponse.INTERNAL_SERVER_ERROR(res, e)
     }
   }
+
   async createUser(req: Request, res: Response) {
     try {
       const data = await this.userService.createUser(req.body)
@@ -55,6 +58,7 @@ export class UserController {
       return this.httpResponse.INTERNAL_SERVER_ERROR(res, e)
     }
   }
+
   async updateUser(req: Request, res: Response) {
     const { id } = req.params
     try {
@@ -73,6 +77,7 @@ export class UserController {
       return this.httpResponse.INTERNAL_SERVER_ERROR(res, e)
     }
   }
+
   async deleteUser(req: Request, res: Response) {
     const { id } = req.params
     try {
