@@ -7,14 +7,15 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "tsc && node dist/server.js",
     "start:dev": "tsc && concurrently \"tsc -w\" \"nodemon dist/server.js\"",
-    "start:prod": "SET NODE_ENV=production && yarn start",
+    "start:prod": "SET NODE_ENV=production && pnpm start",
     "typeorm": "typeorm-ts-node-esm -d ./src/config/data.source.ts",
-    "migration:generator": "yarn run typeorm migration:generate",
-    "migration:run": "yarn run typeorm migration:run"
+    "migration:generator": "pnpm run typeorm migration:generate",
+    "migration:run": "pnpm run typeorm migration:run"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/node": "^18.7.17",
     "bcrypt": "^5.0.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",

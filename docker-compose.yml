@@ -2,7 +2,7 @@ version: "3.1"
 
 services:
   tumadb:
-    image: mysql:5.7
+    image: mysql:latest
     volumes:
       - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
     command: --init-file /docker-entrypoint-initdb.d/init.sql
