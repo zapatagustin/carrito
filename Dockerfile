@@ -12,10 +12,10 @@ RUN npm install
 
 ENV NODE_ENV=production
 
-RUN npm run m:gen -- src/migrations/InitDB
+RUN npm run migration:generator -- src/migrations/InitDB
 
-RUN npm run m:run
+RUN npm run migration:run
 
 EXPOSE 8000
 
-CMD ["yarn","start"]
+CMD ["npm","start"]
